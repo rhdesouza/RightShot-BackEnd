@@ -1,0 +1,67 @@
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		
+		<style>
+			@font-face {
+			  font-family: Azonix;
+			  src: url("fonts/Azonix.otf");
+			}
+		</style>
+	</head>
+	<body>
+		<div style="width: 100%; border: 1px #1d3448 solid; ">
+			<div style="border: 1px white solid; background-color: #1d3448; text-align: center; padding: 10px;">
+				<span style="font-size:22px; color: white; text-transform: uppercase; font-family: Azonix, Helvetica, Arial, sans-serif, Montserrat">
+					Right Shot Club
+				</span>
+			</div>
+			<div style="padding: 15px 30px 30px 30px; font-family: Helvetica, Arial, sans-serif, Montserrat; line-height: 1.8;">
+				A compra abaixo foi registrada:<br>
+				Número:&nbsp;<b th:text="${venda.getId()}"></b><br>
+				Cliente:&nbsp;<b th:text="${venda.getCliente().getNome()}"></b><br>
+				CPF/CNPJ:&nbsp;<b th:text="${cpfCliente}"></b><br>
+				Valor Nota:&nbsp;<b th:text="${valorVenda}"></b><br>
+				Forma de Pagamento:&nbsp;<b th:text="${venda.getFormaPagamento()}"></b><br>
+				Data/Hora Venda:&nbsp;<b th:text="${dataHoraVenda}"></b><br>
+				
+				<table border="1" cellpadding="1" cellspacing="1" style="width:100%; border-collapse: collapse;">
+					<tbody>
+						<tr>
+							<td style="text-align:center"><strong>Código</strong></td>
+							<td style="text-align:center"><strong>Produto</strong></td>
+							<td style="text-align:center"><strong>Unid.</strong></td>
+							<td style="text-align:center"><strong>QTD.</strong></td>
+							<td style="text-align:center"><strong>Valor Unitário</strong></td>
+							<td style="text-align:center"><strong>Total </strong></td>
+						</tr>
+						<tr th:each="item : ${venda.getVendaItens()}">
+							<td th:text="${item.getProduto().getCodProduto()}">&nbsp;</td>
+							<td th:text="${item.getProduto().getDescricao()}">&nbsp;</td>
+							<td th:text="${item.getTipoUnidade()}">&nbsp;</td>
+							<td th:text="${item.getQtd()}">&nbsp;</td>
+							<td th:text="${item.getValorProduto()}">&nbsp;</td>
+							<td th:text="${item.getValorVenda()}">&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<strong>Ps. Este e-mail é meramente informativo, não responda ao remetente.</strong><br>
+				<br><strong><em>Att.</em></strong><br>
+				<strong><em>Sistema RIGHT SHOT CLUB</em></strong><br>
+			</div>
+			<div style="border: 1px white solid; background-color: #1d3448; text-align: center; padding: 10px; font-family: Helvetica, Arial, sans-serif, Montserrat; line-height: 1.8;">
+				<span style="font-size:12px; color: white;">
+					Right Shot Club - Inscrita no CNPJ sob o nº 27.729.054/0001-49<br>
+					Com sede na Avenida Juiz Marco Tulio Isaac, 1119, Betim/MG, CEP 32604-345<br>
+					<br>
+					Atendimento de Segunda a Sábado das 8:00 às 20:00 (exceto feriados):<br>
+					(31) 3022-2326 | (31) 9654-6622 (WathsApp)<br>
+				</span>
+			</div>
+		</div>
+	</body>
+</html>
