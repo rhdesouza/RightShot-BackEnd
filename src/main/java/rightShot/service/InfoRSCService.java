@@ -3,8 +3,6 @@ package rightShot.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +14,14 @@ import rightShot.repository.InfoRSCRepository;
 public class InfoRSCService {
 
 	@Autowired
-	public InfoRSCRepository iInfoRSC;
+	public InfoRSCRepository infoRSCRepository;
 
 	public InfoRSC salvar(InfoRSC info) {
 		try {
 			if (info.getId() == null)
 				return null;
 
-			return iInfoRSC.save(info);
+			return infoRSCRepository.save(info);
 		} catch (Exception ex) {
 			log.error(ex.toString());
 			return null;
@@ -32,7 +30,7 @@ public class InfoRSCService {
 
 	public InfoRSC getInfoRSC() {
 		try {
-			return iInfoRSC.findById(1).orElse(null);
+			return infoRSCRepository.findById(1).orElse(null);
 		} catch (Exception ex) {
 			log.error(ex.toString());
 			return null;
@@ -40,7 +38,7 @@ public class InfoRSCService {
 	}
 
 	public String[] getEmailSocios() {
-		InfoRSC info = iInfoRSC.findById(1).get();
+		InfoRSC info = infoRSCRepository.findById(1).get();
 
 		ArrayList<String> ar = new ArrayList<>();
 		ar.add(info.getEmailSocio1());
