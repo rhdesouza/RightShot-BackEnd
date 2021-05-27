@@ -115,7 +115,7 @@ public class MyUserDetailsService implements UserDetailsService {
 			User user = userRepository.findById(idUser).get();
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 	}

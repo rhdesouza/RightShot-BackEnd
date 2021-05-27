@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rightShot.repository.DashboardDao;
+import rightShot.repository.DashboardRepository;
 
 @Service
 public class DashboardService {
 
 	@Autowired
-	DashboardDao dashboardDao;
+	DashboardRepository dashboardDao;
 
 	public List<Object> buscarQtdAirsoftPorSituacao() {
 		List<Object> quantitativo = dashboardDao.getQtdAirsoftPorSituacao();

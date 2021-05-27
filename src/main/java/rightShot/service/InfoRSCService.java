@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.InfoRSC;
-import rightShot.repository.IInfoRSC;
+import rightShot.repository.InfoRSCRepository;
 
 @Slf4j
 @Service
 public class InfoRSCService {
 
 	@Autowired
-	public IInfoRSC iInfoRSC;
+	public InfoRSCRepository iInfoRSC;
 
 	public InfoRSC salvar(InfoRSC info) {
 		try {

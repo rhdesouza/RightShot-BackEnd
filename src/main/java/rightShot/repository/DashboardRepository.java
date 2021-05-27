@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DashboardDao {
+public class DashboardRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;

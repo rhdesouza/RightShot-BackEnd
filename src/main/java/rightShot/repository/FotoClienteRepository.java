@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import rightShot.entity.FotoCliente;
 
 @Repository
-public interface IFotoCliente extends JpaRepository<FotoCliente, Long> {
+public interface FotoClienteRepository extends JpaRepository<FotoCliente, Long> {
 	
 	@Query("SELECT fc FROM FotoCliente fc WHERE fc.cliente.id = :idCliente")
 	List<FotoCliente> listarFotosPorCliente(@Param(value="idCliente") Long idCliente);

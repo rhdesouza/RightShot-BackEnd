@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import rightShot.entity.Fornecedor;
 
 @Repository
-public interface IFornecedorDao extends JpaRepository<Fornecedor, Long> {
+public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
 
 	@Query("SELECT f.id, f.razaoSocial FROM Fornecedor f ORDER BY f.razaoSocial")
 	List<String> listarFornecedoresPorRazaoSocial();

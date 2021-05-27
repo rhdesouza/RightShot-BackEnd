@@ -15,6 +15,8 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -83,7 +85,7 @@ public class Fornecedor extends Auditable<String> {
 	private String estado;
 	private String pais;
 	/* Contato Documentos */
-	@Column(nullable = false)
+	@NotNull
 	private String cpfCnpj;
 	private String inscricaoMunicipal;
 	private String inscricaoEstadual;

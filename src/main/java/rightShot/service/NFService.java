@@ -11,25 +11,25 @@ import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.Estoque;
 import rightShot.entity.NF;
 import rightShot.entity.SituacaoNF;
-import rightShot.repository.IEstoque;
-import rightShot.repository.INF;
-import rightShot.repository.INfItens;
+import rightShot.repository.EstoqueRepository;
+import rightShot.repository.INFRepository;
+import rightShot.repository.NfItensRepository;
 
 @Slf4j
 @Service
 public class NFService {
 
 	@Autowired
-	private INF iNF;
+	private INFRepository iNF;
 
 	@Autowired
-	INfItens iNfItens;
+	NfItensRepository iNfItens;
 
 	@Autowired
 	EmailService emailService;
 
 	@Autowired
-	IEstoque iEstoque;
+	EstoqueRepository iEstoque;
 
 	public NF save(NF nf) {
 		NF nota = new NF();

@@ -3,9 +3,10 @@ package rightShot.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import rightShot.entity.NfItens;
+import rightShot.entity.NF;
 
 @Repository
-public interface INfItens extends JpaRepository<NfItens, Long> {
+public interface INFRepository extends JpaRepository<NF, Long>{
 
+	
 }

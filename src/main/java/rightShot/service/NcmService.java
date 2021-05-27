@@ -16,14 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.Ncm;
-import rightShot.repository.INcm;
+import rightShot.repository.NcmRepository;
 
 @Slf4j
 @Service
 public class NcmService {
 
 	@Autowired
-	private INcm iNcm;
+	private NcmRepository iNcm;
 
 	public Boolean lerArquivoNcm(MultipartFile fileUpload) throws IOException {
 		try {

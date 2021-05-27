@@ -23,9 +23,9 @@ import rightShot.dto.PrecificacaoProdutoListDTO;
 import rightShot.entity.InfoRSC;
 import rightShot.entity.PrecificacaoProduto;
 import rightShot.entity.Produto;
-import rightShot.repository.IInfoRSC;
-import rightShot.repository.IPrecificacaoProduto;
-import rightShot.repository.IProduto;
+import rightShot.repository.InfoRSCRepository;
+import rightShot.repository.PrecificacaoProdutoRepository;
+import rightShot.repository.ProdutoRepository;
 import rightShot.vo.PageVO;
 
 @Slf4j
@@ -38,7 +38,7 @@ public class PrecificacaoProdutoService {
 	private EntityManager entityManager;
 
 	@Autowired
-	private IPrecificacaoProduto iPrecificacaoProduto;
+	private PrecificacaoProdutoRepository iPrecificacaoProduto;
 
 	@Autowired
 	private UtilService utilService;
@@ -47,10 +47,10 @@ public class PrecificacaoProdutoService {
 	private PrecificacaoProdutoDao precificacaoProdutoDao;
 
 	@Autowired
-	private IProduto iProduto;
+	private ProdutoRepository iProduto;
 
 	@Autowired
-	private IInfoRSC iInfoRSC;
+	private InfoRSCRepository iInfoRSC;
 
 	@Autowired
 	EmailService emailService;

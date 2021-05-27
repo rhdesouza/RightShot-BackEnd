@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import rightShot.entity.NfPagamento;
 
 @Repository
-public interface INfPagamento extends JpaRepository<NfPagamento, Long> {
+public interface NfPagamentoRepository extends JpaRepository<NfPagamento, Long> {
 
 }

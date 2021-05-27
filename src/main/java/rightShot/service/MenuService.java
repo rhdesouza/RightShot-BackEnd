@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rightShot.entity.Menu;
-import rightShot.repository.IMenu;
+import rightShot.repository.MenuRepository;
 
 @Service
 public class MenuService {
 
 	@Autowired
-	private IMenu iMenuDao;
+	private MenuRepository iMenuDao;
 
 	public List<Menu> getAllMenu() {
 		return iMenuDao.listarMenuAtivo();

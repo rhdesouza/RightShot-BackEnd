@@ -24,8 +24,8 @@ import rightShot.dto.ClienteDTO;
 import rightShot.entity.Cliente;
 import rightShot.entity.FotoCliente;
 import rightShot.entity.SituacaoCliente;
-import rightShot.repository.IClientesDao;
-import rightShot.repository.IFotoCliente;
+import rightShot.repository.ClientesRepository;
+import rightShot.repository.FotoClienteRepository;
 import rightShot.vo.PageVO;
 
 @Slf4j
@@ -39,10 +39,10 @@ public class ClientesService {
 	private UtilService utilService;
 
 	@Autowired
-	IClientesDao iClientesDao;
+	ClientesRepository iClientesDao;
 
 	@Autowired
-	IFotoCliente iFotoCliente;
+	FotoClienteRepository iFotoCliente;
 
 	public List<Cliente> buscarTodosClientes() {
 		return iClientesDao.findAll();

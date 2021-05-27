@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.TipoProduto;
-import rightShot.repository.ITipoProduto;
+import rightShot.repository.TipoProdutoRepository;
 
 @Slf4j
 @Service
 public class TipoProdutoService {
 
 	@Autowired
-	private ITipoProduto iTipoProdutoDao;
+	private TipoProdutoRepository iTipoProdutoDao;
 
 	public List<TipoProduto> getAllTipoProduto() {
 		return iTipoProdutoDao.findAll();

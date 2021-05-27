@@ -1,9 +1,14 @@
 package rightShot;
 
+import java.io.FileReader;
+
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -43,6 +48,10 @@ public class RightShotApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner() {
 		return args -> {
+			
+			MavenXpp3Reader reader = new MavenXpp3Reader();
+	        Model model = reader.read(new FileReader("pom.xml"));
+			
 			log.info(
 					"\r\n----------------------------------------------------------------------------------------------------------------\r\n"
 							+ "██████╗ ██╗ ██████╗ ██╗  ██╗████████╗    ███████╗██╗  ██╗ ██████╗ ████████╗     ██████╗██╗     ██╗   ██╗██████╗ \r\n"
@@ -51,6 +60,7 @@ public class RightShotApplication {
 							+ "██╔══██╗██║██║   ██║██╔══██║   ██║       ╚════██║██╔══██║██║   ██║   ██║       ██║     ██║     ██║   ██║██╔══██╗\r\n"
 							+ "██║  ██║██║╚██████╔╝██║  ██║   ██║       ███████║██║  ██║╚██████╔╝   ██║       ╚██████╗███████╗╚██████╔╝██████╔╝\r\n"
 							+ "╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝       ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝        ╚═════╝╚══════╝ ╚═════╝ ╚═════╝\r\n"
+							+ model.getVersion() + "\r\n"
 							+ "----------------------------------------------------------------------------------------------------------------\r\n");
 		};
 	}

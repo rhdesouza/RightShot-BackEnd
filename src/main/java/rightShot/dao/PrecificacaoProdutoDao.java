@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.PrecificacaoProduto;
-import rightShot.repository.IPrecificacaoProduto;
+import rightShot.repository.PrecificacaoProdutoRepository;
 import rightShot.vo.ValorMedioPorProdutoVO;
 
 @Slf4j
@@ -25,7 +25,7 @@ public class PrecificacaoProdutoDao {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private IPrecificacaoProduto iPrecificacaoProduto;
+	private PrecificacaoProdutoRepository iPrecificacaoProduto;
 
 	public ValorMedioPorProdutoVO getSugestaoPrecificavaoProduto(Long idProduto) {
 

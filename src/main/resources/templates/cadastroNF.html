@@ -21,10 +21,10 @@
 			</div>
 			<div style="padding: 15px 30px 30px 30px; font-family: Helvetica, Arial, sans-serif, Montserrat; line-height: 1.8;">
 				A nota fiscal abaixo foi cadastrada:&nbsp;<br>
-				Número:&nbsp;<b th:text="${nf.getNumero()}"></b><br>
-				CPF/CNPJ:&nbsp;<b th:text="${nf.getFornecedor().getCpfCnpjFormatado()}"></b><br>
-				Fornecedor:&nbsp;<b th:text="${nf.getFornecedor().getNomeFantasia()}"></b><br>
-				Valor:&nbsp;<b th:text="${nf.getValorTotalFormatado()}"></b><br>
+				Número:&nbsp;<strong th:text="${nf.getNumero()}"></strong><br>
+				CPF/CNPJ:&nbsp;<strong th:text="${nf.getFornecedor().getCpfCnpjFormatado()}"></strong><br>
+				Fornecedor:&nbsp;<strong th:text="${nf.getFornecedor().getNomeFantasia()}"></strong><br>
+				Valor:&nbsp;<strong th:text="${nf.getValorTotalFormatado()}"></strong><br>
 				Itens:<br>
 				
 				<table  border="1" cellpadding="1" cellspacing="1" style="width:100%; border-collapse: collapse;">

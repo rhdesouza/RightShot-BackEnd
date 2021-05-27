@@ -107,5 +107,10 @@ public class Cliente extends Auditable<String> {
 	public Cliente(Long id) {
 		this.id = id;
 	}
+
+	public Cliente(Long id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 	
 }

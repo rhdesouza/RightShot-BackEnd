@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import rightShot.entity.PrecificacaoProduto;
 
-public interface IPrecificacaoProduto extends CrudRepository<PrecificacaoProduto, Long> {
+public interface PrecificacaoProdutoRepository extends CrudRepository<PrecificacaoProduto, Long> {
 
 	@Query("select pp from PrecificacaoProduto pp where pp.produto.id = :idProduto")
 	PrecificacaoProduto PrecificacaoProdutoPorIdProduto(@Param(value = "idProduto") Long idProduto);

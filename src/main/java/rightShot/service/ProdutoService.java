@@ -11,22 +11,22 @@ import lombok.extern.slf4j.Slf4j;
 import rightShot.entity.Ncm;
 import rightShot.entity.Produto;
 import rightShot.entity.TipoProduto;
-import rightShot.repository.INcm;
-import rightShot.repository.IProduto;
-import rightShot.repository.ITipoProduto;
+import rightShot.repository.NcmRepository;
+import rightShot.repository.ProdutoRepository;
+import rightShot.repository.TipoProdutoRepository;
 
 @Slf4j
 @Service
 public class ProdutoService {
 
 	@Autowired
-	private IProduto iProdutoDao;
+	private ProdutoRepository iProdutoDao;
 
 	@Autowired
-	private ITipoProduto iTipoProduto;
+	private TipoProdutoRepository iTipoProduto;
 
 	@Autowired
-	private INcm iNcm;
+	private NcmRepository iNcm;
 
 	public Produto save(Produto produto) {
 		try {

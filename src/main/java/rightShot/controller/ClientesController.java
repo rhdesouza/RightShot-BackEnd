@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,14 +53,14 @@ public class ClientesController {
 
 	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE_EDIT, Const.ROLE_CLIENTE_NEW })
 	@GetMapping("/one/{idCliente}")
-	public ResponseEntity<Cliente> buscarAirsoftPorId(@PathVariable(name = "idCliente") Long idCliente) {
+	public ResponseEntity<Cliente> buscarClientePorId(@PathVariable(name = "idCliente") Long idCliente) {
 		return Optional.ofNullable(clienteService.buscarClientePorId(idCliente))
 				.map(result -> new ResponseEntity<Cliente>(result, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND));
 	}
 
 	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE_EDIT, Const.ROLE_CLIENTE_NEW })
-	@PutMapping("/add")
+	@PostMapping("/add")
 	public ResponseEntity<Cliente> saveCliente(@RequestBody final Cliente cliente) {
 		return Optional.ofNullable(clienteService.save(cliente))
 				.map(result -> new ResponseEntity<Cliente>(result, HttpStatus.OK))

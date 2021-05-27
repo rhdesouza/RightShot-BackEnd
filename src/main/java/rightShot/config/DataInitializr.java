@@ -25,15 +25,15 @@ import rightShot.entity.SituacaoUser;
 import rightShot.entity.TipoProduto;
 import rightShot.entity.UnidadeTipoProduto;
 import rightShot.entity.User;
-import rightShot.repository.IFornecedorDao;
-import rightShot.repository.IInfoRSC;
-import rightShot.repository.IMenu;
-import rightShot.repository.INF;
-import rightShot.repository.INcm;
-import rightShot.repository.INfItens;
-import rightShot.repository.INfPagamento;
-import rightShot.repository.IProduto;
-import rightShot.repository.ITipoProduto;
+import rightShot.repository.FornecedorRepository;
+import rightShot.repository.InfoRSCRepository;
+import rightShot.repository.MenuRepository;
+import rightShot.repository.INFRepository;
+import rightShot.repository.NcmRepository;
+import rightShot.repository.NfItensRepository;
+import rightShot.repository.NfPagamentoRepository;
+import rightShot.repository.ProdutoRepository;
+import rightShot.repository.TipoProdutoRepository;
 import rightShot.repository.RoleRepository;
 import rightShot.repository.UserRepository;
 import rightShot.service.FornecedorService;
@@ -56,28 +56,28 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
 	PasswordEncoder passwordEncoder;
 
 	@Autowired
-	IMenu iMenuDao;
+	MenuRepository iMenuDao;
 
 	@Autowired
-	ITipoProduto iTipoProduto;
+	TipoProdutoRepository iTipoProduto;
 
 	@Autowired
-	INF iNF;
+	INFRepository iNF;
 
 	@Autowired
-	IFornecedorDao iFornecedor;
+	FornecedorRepository iFornecedor;
 
 	@Autowired
-	INfPagamento iNfPagamento;
+	NfPagamentoRepository iNfPagamento;
 
 	@Autowired
-	INfItens iNfItens;
+	NfItensRepository iNfItens;
 
 	@Autowired
-	IProduto iProduto;
+	ProdutoRepository iProduto;
 
 	@Autowired
-	INcm iNcm;
+	NcmRepository iNcm;
 
 	@Autowired
 	NcmService ncmService;
@@ -86,7 +86,7 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
 	FornecedorService fornecedorService;
 
 	@Autowired
-	private IInfoRSC iInfoRSC;
+	private InfoRSCRepository iInfoRSC;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {

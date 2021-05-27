@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import rightShot.dto.FornecedorDTO;
 import rightShot.entity.Fornecedor;
 import rightShot.entity.SituacaoFornecedor;
-import rightShot.repository.IFornecedorDao;
+import rightShot.repository.FornecedorRepository;
 import rightShot.vo.PageVO;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class FornecedorService {
 	private UtilService utilService;
 
 	@Autowired
-	IFornecedorDao iFornecedorDao;
+	FornecedorRepository iFornecedorDao;
 
 	public List<Fornecedor> buscarTodosFornecedores() {
 		return iFornecedorDao.findAll();

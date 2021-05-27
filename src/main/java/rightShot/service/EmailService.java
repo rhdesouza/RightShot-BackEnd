@@ -15,9 +15,9 @@ import rightShot.entity.NF;
 import rightShot.entity.PrecificacaoProduto;
 import rightShot.entity.User;
 import rightShot.entity.Venda;
-import rightShot.repository.IClientesDao;
-import rightShot.repository.INF;
-import rightShot.repository.IVenda;
+import rightShot.repository.ClientesRepository;
+import rightShot.repository.INFRepository;
+import rightShot.repository.VendaRepository;
 import rightShot.repository.UserRepository;
 
 @Slf4j
@@ -28,7 +28,7 @@ public class EmailService {
 	UserRepository iUser;
 
 	@Autowired
-	INF iNf;
+	INFRepository iNf;
 
 	@Autowired
 	private InfoRSCService infoService;
@@ -37,10 +37,10 @@ public class EmailService {
 	private UtilService utilSerivce;
 
 	@Autowired
-	private IClientesDao iCliente;
+	private ClientesRepository iCliente;
 
 	@Autowired
-	private IVenda iVenda;
+	private VendaRepository iVenda;
 
 	private final TemplateEngine templateEngine;
 	private final JavaMailSender javaMailSender;

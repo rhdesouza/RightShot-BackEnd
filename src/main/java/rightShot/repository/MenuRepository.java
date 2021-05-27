@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import rightShot.entity.Menu;
 
 @Repository
-public interface IMenu extends JpaRepository<Menu, Long>{
+public interface MenuRepository extends JpaRepository<Menu, Long>{
 
 	@Query("SELECT m FROM Menu m Where m.disable = 0 ORDER BY m.ordem")
 	List<Menu> listarMenuAtivo();

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import rightShot.dto.EstoqueDTO;
 import rightShot.entity.Estoque;
-import rightShot.repository.IEstoque;
+import rightShot.repository.EstoqueRepository;
 import rightShot.vo.PageVO;
 
 @Slf4j
@@ -26,7 +26,7 @@ public class EstoqueService {
 	private EntityManager entityManager;
 
 	@Autowired
-	private IEstoque iEstoque;
+	private EstoqueRepository iEstoque;
 
 	@Autowired
 	private UtilService utilService;
