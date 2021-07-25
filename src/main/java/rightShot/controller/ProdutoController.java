@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rightShot.documentation.DocumentationProdutoController;
 import rightShot.domain.Const;
 import rightShot.entity.Produto;
 import rightShot.service.ProdutoService;
 
 @RestController
 @RequestMapping("/produto")
-public class ProdutoController {
+public class ProdutoController implements DocumentationProdutoController {
 
 	@Autowired
 	private ProdutoService produtoService;
@@ -58,5 +59,4 @@ public class ProdutoController {
 				.map(result -> new ResponseEntity<Produto>(result, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<Produto>(HttpStatus.NOT_FOUND));
 	}
-
 }

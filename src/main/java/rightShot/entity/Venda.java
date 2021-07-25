@@ -1,30 +1,58 @@
 package rightShot.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import rightShot.audit.Auditable;
+import rightShot.dto.ClienteDTO;
+import rightShot.dto.VendaPageableDTO;
+
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+//@formatter:off
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "VendaPageableDTO", query =
+				"SELECT * FROM ( " +
+				" SELECT " +
+				"	tv.id as idVenda, " +
+				"	tv.data_hora_venda as dataHoraVenda, " +
+				"	tv.email_enviado as emailEnviado, " +
+				"	tc.cpf, " +
+				" 	tc.nome, " +
+				" 	tc.email, " +
+				"   tv.situacao_venda as situacaoVenda" +
+				" FROM tb_venda tv "+
+				" JOIN tb_cliente tc on tc.id = tv.cliente_id " +
+				") v " +
+				" HashWhereFilter " +
+				" HashWhereOrderBy ",
+				resultSetMapping = "VendaPageableDTOResultMapping")
+})
+
+@SqlResultSetMapping(name = "VendaPageableDTOResultMapping", classes = {
+		@ConstructorResult(targetClass = VendaPageableDTO.class,
+				columns = {
+						@ColumnResult(name = "idVenda", type = Long.class),
+						@ColumnResult(name = "dataHoraVenda", type = Date.class),
+						@ColumnResult(name = "emailEnviado", type = Boolean.class),
+						@ColumnResult(name = "cpf", type = String.class),
+						@ColumnResult(name = "nome", type = String.class),
+						@ColumnResult(name = "email", type = String.class),
+						@ColumnResult(name = "situacaoVenda", type = Integer.class)
+				}
+		)
+})
+//@formatter:on
 
 @Data
 @NoArgsConstructor
@@ -32,7 +60,7 @@ import rightShot.audit.Auditable;
 @Entity
 @Table(name = "tb_venda")
 @Audited
-public class Venda extends Auditable<String> {
+public class Venda extends Auditable<String> implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +75,7 @@ public class Venda extends Auditable<String> {
 	private FormaPagamento formaPagamento;
 
 	@Column(nullable = false)
+	@CreationTimestamp
 	private LocalDateTime dataHoraVenda;
 
 	@Column(nullable = false)
@@ -64,6 +93,11 @@ public class Venda extends Auditable<String> {
 	private List<VendaItens> vendaItens;
 
 	@Column(nullable = false)
+	@ColumnDefault("FALSE")
 	private Boolean emailEnviado;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private SituacaoVenda situacaoVenda = SituacaoVenda.CONSOLIDADO;
 
 }

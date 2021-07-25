@@ -39,7 +39,7 @@ public class ClientesControllerIntegrationTest {
 	
 	//@formatter:off
 	@Test
-	public void clinetesTestGetAll() throws Exception {
+	public void clinetesTestGetAll_OK() throws Exception {
 		MultiValueMap<String, String> heanders = this.authService.getToken();
 		mockMvc.perform(get("/clientes/all")
 							.header("Authorization", heanders.getFirst("Authorization"))
@@ -53,7 +53,7 @@ public class ClientesControllerIntegrationTest {
 	void buscarClientePorId_OK() throws Exception {
 		MultiValueMap<String, String> heanders = this.authService.getToken();
 		
-		Cliente cli = new Cliente(1L, "Teste Cliente");
+		Cliente cli = new Cliente(1L, "Teste Cliente","11122233344");
 		Mockito.when(clienteRepository.findById(1L)).thenReturn(Optional.of(cli));
 
 		mockMvc.perform(get("/clientes/one/1")
@@ -77,9 +77,9 @@ public class ClientesControllerIntegrationTest {
 	}
 	
 	@Test 
-	void salvarClientesTest() throws Exception {
+	void salvarClientesTest_OK() throws Exception {
 		MultiValueMap<String, String> heanders = this.authService.getToken();
-		Cliente cli = new Cliente(1L, "Teste Cliente");
+		Cliente cli = new Cliente(1L, "Teste Cliente","11122233344");
 		
 		Mockito.when(clienteRepository.save(cli)).thenReturn(cli);
 		
@@ -89,6 +89,26 @@ public class ClientesControllerIntegrationTest {
 				.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk());
+		
+		
+	}
+	
+	@Test 
+	void salvarClientesTest_CONFLIT() throws Exception {
+		MultiValueMap<String, String> heanders = this.authService.getToken();
+		
+		Cliente oldCli = new Cliente(23L, "Teste Cliente OLD", "11122233344");
+		Mockito.when(clienteRepository.findByCpf(oldCli.getCpf())).thenReturn(oldCli);
+		
+		Cliente newCli = new Cliente(1L, "Teste Cliente", "11122233344");
+		Mockito.when(clienteRepository.save(newCli)).thenReturn(newCli);
+		
+		mockMvc.perform(post("/clientes/add")
+				.content(objectMapper.writeValueAsString(newCli))
+				.header("Authorization", heanders.getFirst("Authorization"))
+				.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+				.contentType(MediaType.APPLICATION_JSON)
+				).andExpect(status().isConflict());
 		
 		
 	}

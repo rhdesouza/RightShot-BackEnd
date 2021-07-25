@@ -42,6 +42,9 @@ mailSender.userName
 mailSender.password
 mailSender.encoding
 
+#Configuração para rodar os testes heroku
+MAVEN_CUSTOM_OPTS=true
+
 ____________________________________________________________________
 #DEPLOY HEROKU (Necessário Heroku CLI)
 

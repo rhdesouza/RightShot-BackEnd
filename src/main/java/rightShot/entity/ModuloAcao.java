@@ -9,5 +9,7 @@ public enum ModuloAcao {
 	DISABLED, 
 	UPLOAD,
 	GENERATE,
-	HISTORICO
+	HISTORICO,
+	CANCEL,
+	SEND
 }

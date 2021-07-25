@@ -22,5 +22,6 @@ public class PrecificacaoProdutoListDTO implements Serializable{
 	private String unid_venda;
 	private Long id;
 	private BigDecimal valor_produto;
+	private Long qtd_est_real;
 
 }

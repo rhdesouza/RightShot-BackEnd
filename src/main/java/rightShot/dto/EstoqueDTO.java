@@ -21,5 +21,7 @@ public class EstoqueDTO implements Serializable {
 	private String tipo;
 	private String unid_compra;
 	private String unid_venda;
+	private Long qtd_venda;
+	private Long qtd_est_real;
 
 }

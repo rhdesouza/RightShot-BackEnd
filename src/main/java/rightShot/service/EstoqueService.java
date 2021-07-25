@@ -26,7 +26,7 @@ public class EstoqueService {
 	private EntityManager entityManager;
 
 	@Autowired
-	private EstoqueRepository iEstoque;
+	private EstoqueRepository estoqueRepository;
 
 	@Autowired
 	private UtilService utilService;
@@ -45,7 +45,7 @@ public class EstoqueService {
 
 	public List<Estoque> getAllEstoque() {
 		try {
-			return iEstoque.findAll();
+			return estoqueRepository.findAll();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return Collections.emptyList();
@@ -83,6 +83,13 @@ public class EstoqueService {
 			return null;
 		}
 
+	}
+
+	public boolean validaEstoquePorProduto(Long idProduto, Long qtd){
+		List<EstoqueDTO> estoque = entityManager.createNamedQuery("EstoqueSintetico", EstoqueDTO.class)
+				.getResultList();
+
+		return estoque.stream().anyMatch(item-> item.getId_produto() == idProduto && item.getQtd_est_real() >= qtd);
 	}
 
 }

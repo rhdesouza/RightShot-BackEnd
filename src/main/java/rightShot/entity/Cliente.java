@@ -1,39 +1,22 @@
 package rightShot.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
-
-import org.hibernate.envers.Audited;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import rightShot.audit.Auditable;
 import rightShot.converters.LocalDateConverter;
 import rightShot.dto.ClienteDTO;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 //@formatter:off
 @NamedNativeQueries({ 
@@ -81,6 +64,7 @@ public class Cliente extends Auditable<String> {
 
 	@Column(nullable = false)
 	private String nome;
+	@Column(unique = true)
 	private String cpf;
 	private String email;
 
@@ -108,9 +92,10 @@ public class Cliente extends Auditable<String> {
 		this.id = id;
 	}
 
-	public Cliente(Long id, String nome) {
+	public Cliente(Long id, String nome, String cpf) {
 		this.id = id;
 		this.nome = nome;
+		this.cpf = cpf;
 	}
 	
 }

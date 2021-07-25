@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.query.Query;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -117,7 +118,7 @@ public class PrecificacaoProdutoService {
 		}
 	}
 
-	public BigDecimal adicionarPercentual(BigDecimal valor, BigDecimal percentual) {
+	public BigDecimal adicionarPercentual(@NotNull BigDecimal valor, @NotNull BigDecimal percentual) {
 		BigDecimal valorRetorno = (valor.multiply(percentual).divide(new BigDecimal(100))).add(valor);
 
 		return valorRetorno;

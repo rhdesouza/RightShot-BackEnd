@@ -35,6 +35,7 @@ public class RightShotApplication {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(false); //Configura se somente a url pode fazer as chamadas do back-end
 		config.addAllowedOrigin("*");
+		//config.addAllowedOrigin("http://localhost:4200");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("GET");
 		config.addAllowedMethod("PUT");

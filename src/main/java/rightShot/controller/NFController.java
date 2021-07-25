@@ -30,7 +30,8 @@ public class NFController {
 	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_NOTAFISCAL_NEW, Const.ROLE_NOTAFISCAL_EDIT })
 	@PutMapping("/add")
 	public ResponseEntity<NF> addNF(@RequestBody final NF nf) {
-		return Optional.ofNullable(nfService.save(nf)).map(result -> new ResponseEntity<NF>(result, HttpStatus.OK))
+		return Optional.ofNullable(nfService.save(nf))
+				.map(result -> new ResponseEntity<NF>(result, HttpStatus.OK))
 				.orElseGet(() -> new ResponseEntity<NF>(HttpStatus.NOT_FOUND));
 	}
 

@@ -5,8 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import rightShot.entity.TipoProduto;
 
-@Repository
-public interface TipoProdutoRepository extends JpaRepository<TipoProduto, Long>{
+import java.util.Optional;
 
-	
+@Repository
+public interface TipoProdutoRepository extends JpaRepository<TipoProduto, Long> {
+
+    Optional<TipoProduto> findByTipo(String tipo);
+
 }

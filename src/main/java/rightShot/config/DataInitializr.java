@@ -196,6 +196,9 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
 		tps.add(new TipoProduto("Camisa Promo", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.UN));
 		tps.add(new TipoProduto("Chaveiro", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.UN));
 		tps.add(new TipoProduto("Munição BBS", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.KG));
+		tps.add(new TipoProduto("Munição BBK", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.KG));
+		tps.add(new TipoProduto("Flecha para arco V. UNID", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.KG));
+		tps.add(new TipoProduto("Flecha para arco V. PCTE", UnidadeTipoProduto.PCTE, UnidadeTipoProduto.KG));
 
 		iTipoProduto.saveAll(tps);
 	}
@@ -209,35 +212,38 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
 		}
 
 		lp.add(new Produto("25207657", "AIRSOFT RIFLE CYMA M4 CQB RIS ET (CM506S) ELET.6MM",
-				iTipoProduto.findById(1L).get(), 1l,
+				iTipoProduto.findByTipo("Airsoft").get(), 2l,
 				iNcm.findById("99999999").isPresent() ? iNcm.findById("99999999").get() : null));
 
 		lp.add(new Produto("25207658", "AIRSOFT RIFLE CYMA M4A1 CUSTOM ET(CM515S) ELET.6MM",
-				iTipoProduto.findById(2L).get(), 1l, iNcm.findById("99999999").get()));
+				iTipoProduto.findByTipo("Airsoft").get(), 2l, iNcm.findById("99999999").get()));
 
 		lp.add(new Produto("25206700", "AIRSOFT RIFLE GEG CM16 CARBINE ELET. 6MM Num de Serie:0201416",
-				iTipoProduto.findById(3L).get(), 1l, iNcm.findById("99999999").get()));
+				iTipoProduto.findByTipo("Airsoft").get(), 2l, iNcm.findById("99999999").get()));
 
-		lp.add(new Produto("25207300", "ESFERA PLAST BBK 0,20G BRANCA (4000UN)6MM", iTipoProduto.findById(4L).get(),
-				18l, iNcm.findById("99999999").get()));
+		lp.add(new Produto("25207300", "ESFERA PLAST BBK 0,20G BRANCA (4000UN)6MM",
+				iTipoProduto.findByTipo("Munição BBK").get(),2l, iNcm.findById("99999999").get()));
 
-		lp.add(new Produto("25206068", "CHUMBINHO ROSSI SPORT 5,5MM (125 UN)", iTipoProduto.findById(5L).get(), 10l,
+		lp.add(new Produto("25206068", "CHUMBINHO ROSSI SPORT 5,5MM (125 UN)", iTipoProduto.findByTipo("Munição BBS").get(), 5l,
 				iNcm.findById("99999999").get()));
 
-		lp.add(new Produto("25201103", "FLECHA FIBRA PRETA 30p", iTipoProduto.findById(1L).get(), 20l,
+		lp.add(new Produto("25201103", "FLECHA FIBRA PRETA 30p", iTipoProduto.findByTipo("Flecha para arco V. UNID").get(), 20l,
 				iNcm.findById("99999999").get()));
 
 		lp.add(new Produto("1524502051", "PIST PRESSAO KWC 24/7 SLIDE METAL MOLA CAL.4,5MM",
 				iTipoProduto.findById(2L).get(), 1l, iNcm.findById("99999999").get()));
 
-		lp.add(new Produto("1424501051", "PIST PRES WINGUN W125B CO2 4,5MM", iTipoProduto.findById(3L).get(), 1l,
+		lp.add(new Produto("1424501051", "PIST PRES WINGUN W125B CO2 4,5MM", iTipoProduto.findByTipo("Airsoft").get(), 1l,
 				iNcm.findById("99999999").get()));
 
-		lp.add(new Produto("25207628", "AIRSOFT PIST. VG P.1918 MOLA 6MM", iTipoProduto.findById(4L).get(), 1l,
+		lp.add(new Produto("25207628", "AIRSOFT PIST. VG P.1918 MOLA 6MM", iTipoProduto.findByTipo("Airsoft").get(), 1l,
 				iNcm.findById("99999999").get()));
 
 		lp.add(new Produto("25206744", "AIRSOFT RIFLE CYMA SCAR LABS (CM067BK) ELET 6MM",
-				iTipoProduto.findById(5L).get(), 2l, iNcm.findById("99999999").get()));
+				iTipoProduto.findByTipo("Airsoft").get(), 2l, iNcm.findById("99999999").get()));
+
+		lp.add(new Produto("1515155", "CAMISA CUSTOM RIGHT SHOT CLUB",
+				iTipoProduto.findByTipo("Camisa Promo").get(), 2l, iNcm.findById("99999999").get()));
 
 		iProduto.saveAll(lp);
 	}

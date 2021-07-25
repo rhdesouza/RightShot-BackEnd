@@ -70,7 +70,7 @@ public class PrecificacaoProdutoController {
 				.orElseGet(() -> new ResponseEntity<PrecificacaoProduto>(HttpStatus.NOT_FOUND));
 	}
 
-	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_PRECIFICACAO_DELETE })
+	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_PRECIFICACAO_HISTORICO})
 	@GetMapping("/historicoPrecificacaoProduto/{idProduto}")
 	public ResponseEntity<PrecificacaoProdutoHistoricoDTO> getHistoricoPrecificacaoProduto(
 			@PathVariable(name = "idProduto") Long idProduto) {

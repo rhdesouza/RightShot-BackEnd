@@ -5,15 +5,15 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.query.Query;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartException;
@@ -24,6 +24,7 @@ import rightShot.dto.ClienteDTO;
 import rightShot.entity.Cliente;
 import rightShot.entity.FotoCliente;
 import rightShot.entity.SituacaoCliente;
+import rightShot.exception.RegraDeNegocioException;
 import rightShot.repository.ClientesRepository;
 import rightShot.repository.FotoClienteRepository;
 import rightShot.vo.PageVO;
@@ -39,13 +40,13 @@ public class ClientesService {
 	private UtilService utilService;
 
 	@Autowired
-	ClientesRepository iClientesDao;
+	ClientesRepository clienteRepository;
 
 	@Autowired
-	FotoClienteRepository iFotoCliente;
+	FotoClienteRepository fotoClienteRepository;
 
 	public List<Cliente> buscarTodosClientes() {
-		return iClientesDao.findAll();
+		return clienteRepository.findAll();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -84,7 +85,7 @@ public class ClientesService {
 
 	public Cliente buscarClientePorId(Long idCliente) {
 		try {
-			return iClientesDao.findById(idCliente).get();
+			return clienteRepository.findById(idCliente).get();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return null;
@@ -92,91 +93,106 @@ public class ClientesService {
 
 	}
 
-	public ResponseEntity<String> desativarCliente(Long idCliente) {
+	public String desativarCliente(Long idCliente) {
 		try {
-			Cliente cliente = iClientesDao.findById(idCliente).get();
+			Cliente cliente = clienteRepository.findById(idCliente).orElse(new Cliente());
 			if (cliente.getSituacao() != SituacaoCliente.Inativo) {
 				cliente.setSituacao(SituacaoCliente.Inativo);
-				iClientesDao.save(cliente);
-				return new ResponseEntity<>("Cliente Inativo", HttpStatus.OK);
+				clienteRepository.save(cliente);
+				return "Cliente Inativo";
 			} else {
-				return new ResponseEntity<>("Cliente ja esta inativo", HttpStatus.CONFLICT);
+				throw new RegraDeNegocioException("Cliente ja esta inativo");
 			}
 
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+			throw new RegraDeNegocioException(e.getMessage());
 		}
 	}
 
-	public Cliente save(Cliente cliente) {
+	public Cliente saveCliente(Cliente cliente) throws RegraDeNegocioException {
 		try {
-			return iClientesDao.save(cliente);
+			regraClienteExistente(cliente);
+
+			return clienteRepository.save(cliente);
 		} catch (Exception e) {
 			log.error(e.toString());
-			return null;
+			throw new RegraDeNegocioException(e.getMessage());
 		}
+
 	}
 
-	public ResponseEntity<?> saveFoto(MultipartFile fotoCliente, Long idCliente) {
-		Integer totalFotos = iFotoCliente.listarFotosPorCliente(idCliente).size();
-		if (totalFotos > 2) {
+	private void regraClienteExistente(@NotNull Cliente cliente){
+		Optional<Cliente> cli = Optional.ofNullable(clienteRepository.findByCpf(cliente.getCpf()));
+		if (cli.isPresent() && cliente.getId() == null)
+			throw new RegraDeNegocioException("Já existe um cliente cadastrado para este CPF.");
 
-			return new ResponseEntity<>("erro:1, msg:Cada cliente poderá ter somente 3 fotos", HttpStatus.CONFLICT);
-			/*
-			 * throw new
-			 * MultipartException("Cada cliente poderá ter somente 3 fotos cadastradas;");
-			 */
-		}
+	}
 
+	public FotoCliente prepareSaveFoto(MultipartFile fotoCliente, Long idCliente) {
 		try {
+			Integer totalFotos = fotoClienteRepository.listarFotosPorCliente(idCliente).size();
+			if (totalFotos > 2)
+				throw new RegraDeNegocioException("Cada cliente poderá ter somente 3 fotos.");
+
+			if (fotoCliente.getOriginalFilename() == null)
+				throw new MultipartException("getOriginalFilename esta nulo");
+
 			String fileName = StringUtils.cleanPath(fotoCliente.getOriginalFilename());
-			FotoCliente fotoCli = new FotoCliente();
-			try {
-				if (fileName.contains("..")) {
-					throw new MultipartException("Sorry! Filename contains invalid path sequence " + fileName);
-				}
 
-				fotoCli.setFileName(fileName);
-				fotoCli.setFileType(fotoCliente.getContentType());
-				fotoCli.setSize(fotoCliente.getSize());
-				fotoCli.setCliente(iClientesDao.findById(idCliente).get());
-				fotoCli.setDataCadastro(Calendar.getInstance());
-				fotoCli.setData(fotoCliente.getBytes());
-				fotoCli = iFotoCliente.save(fotoCli);
-
-			} catch (IOException ex) {
-				throw new MultipartException("Could not store file " + fileName + ". Please try again!", ex);
-			}
-
-			return new ResponseEntity<>(fotoCli, HttpStatus.OK);
+			return saveFoto(fotoCliente, idCliente, fileName);
 		} catch (Exception e) {
 			log.error(e.toString());
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			throw new RegraDeNegocioException(e.getMessage());
 		}
+	}
+
+	private FotoCliente saveFoto(MultipartFile fotoCliente, Long idCliente, String fileName) {
+		try {
+			FotoCliente fotoCli = new FotoCliente();
+			if (fileName.contains("..")) {
+				throw new MultipartException("Sorry! Filename contains invalid path sequence " + fileName);
+			}
+
+			fotoCli.setFileName(fileName);
+			fotoCli.setFileType(fotoCliente.getContentType());
+			fotoCli.setSize(fotoCliente.getSize());
+			fotoCli.setCliente(clienteRepository.findById(idCliente).orElse(new Cliente()));
+			fotoCli.setDataCadastro(Calendar.getInstance());
+			fotoCli.setData(fotoCliente.getBytes());
+			fotoCli = fotoClienteRepository.save(fotoCli);
+
+			return fotoCli;
+		} catch (IOException ex) {
+			throw new MultipartException("Could not store file " + fileName + ". Please try again!", ex);
+		}
+
 	}
 
 	public List<FotoCliente> buscarTodasFotosPorCliente(Long idCliente) {
-		return iFotoCliente.listarFotosPorCliente(idCliente);
+		return fotoClienteRepository.listarFotosPorCliente(idCliente);
 	}
 
-	public ResponseEntity<FotoCliente> getFotoCliente(Long idFotoCliente) {
+	public FotoCliente getFotoCliente(Long idFotoCliente) {
 		try {
-			FotoCliente fotoCli = iFotoCliente.findById(idFotoCliente).get();
-			return new ResponseEntity<FotoCliente>(fotoCli, HttpStatus.OK);
+			FotoCliente fotoCli = fotoClienteRepository.findById(idFotoCliente).orElse(new FotoCliente());
+			return fotoCli;
 		} catch (Exception e) {
 			log.error(e.toString());
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return null;
+	}
+
+	public void deleteFotoCliente(Long idFotoCliente) {
+		try {
+			fotoClienteRepository.deleteById(idFotoCliente);
+		} catch (Exception e) {
+			log.error(e.toString());
 		}
 	}
 
-	public ResponseEntity<?> deleteFotoCliente(Long idFotoCliente) {
-		try {
-			iFotoCliente.deleteById(idFotoCliente);
-			return new ResponseEntity<>(true, HttpStatus.OK);
-		} catch (Exception e) {
-			log.error(e.toString());
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+	public Cliente getClientePorCpf(String cpf){
+		return clienteRepository.findByCpf(cpf);
+
 	}
 
 }

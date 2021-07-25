@@ -19,18 +19,14 @@ public class Const {
     public static final String ROLE_CLIENTE = "ROLE_CLIENTE";
     public static final String ROLE_CLIENTE_NEW = "ROLE_CLIENTE_NEW";
     public static final String ROLE_CLIENTE_EDIT = "ROLE_CLIENTE_EDIT";
-    public static final String ROLE_CLIENTE_DISABLED = "ROLE_CLIENTE_DISABLED";
-    public static final String ROLE_CLIENTE_DELETE = "ROLE_CLIENTE_DELETE";
-    
+
     /**
      * Role Fornecedores
      */
     public static final String ROLE_FORNECEDOR = "ROLE_FORNECEDOR";
     public static final String ROLE_FORNECEDOR_NEW = "ROLE_FORNECEDOR_NEW";
     public static final String ROLE_FORNECEDOR_EDIT = "ROLE_FORNECEDOR_EDIT";
-    public static final String ROLE_FORNECEDOR_DISABLED = "ROLE_FORNECEDOR_DISABLED";
-    public static final String ROLE_FORNECEDOR_DELETE = "ROLE_FORNECEDOR_DELETE";
-    
+
     /**
      * Módulo Estoque
      */
@@ -45,8 +41,7 @@ public class Const {
     public static final String ROLE_NOTAFISCAL = "ROLE_NOTAFISCAL";
     public static final String ROLE_NOTAFISCAL_NEW = "ROLE_NOTAFISCAL_NEW";
     public static final String ROLE_NOTAFISCAL_EDIT = "ROLE_NOTAFISCAL_EDIT";
-    public static final String ROLE_NOTAFISCAL_DELETE = "ROLE_NOTAFISCAL_DELETE";
-    
+
     /**
      * Roles Produto
      */
@@ -84,7 +79,7 @@ public class Const {
      */
     public static final String ROLE_VENDA = "ROLE_VENDA";
     public static final String ROLE_VENDA_NEW = "ROLE_VENDA_NEW";
-    public static final String ROLE_VENDA_EDIT = "ROLE_VENDA_EDIT";
-    public static final String ROLE_VENDA_DELETE = "ROLE_VENDA_DELETE";
+    public static final String ROLE_VENDA_CANCEL = "ROLE_VENDA_CANCEL";
+    public static final String ROLE_VENDA_SEND = "ROLE_VENDA_SEND";
     
 }
