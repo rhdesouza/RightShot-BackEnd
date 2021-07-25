@@ -16,8 +16,8 @@ public class PrecificacaoProdutoServiceTest {
     @Autowired
     private PrecificacaoProdutoService precificacaoProdutoService;
 
-    @Test
     //@DisplayName("Verifica se a função de adicionar o percentual está correta")
+    @Test
     public void adicionarPercentual_Ok() {
         BigDecimal valor = precificacaoProdutoService.adicionarPercentual(
                 new BigDecimal(100),

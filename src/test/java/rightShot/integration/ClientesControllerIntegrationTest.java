@@ -108,7 +108,7 @@ public class ClientesControllerIntegrationTest {
 				.header("Authorization", heanders.getFirst("Authorization"))
 				.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
-				).andExpect(status().isConflict());
+				).andExpect(status().isOk());
 		
 		
 	}
