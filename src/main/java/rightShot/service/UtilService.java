@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.query.Query;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,17 +27,15 @@ public class UtilService {
      * @param qryParams
      * @return
      */
-    public Long CountQuery(javax.persistence.Query query, Map<String, Object> qryParams) {
+    public Long CountQuery(@NotNull javax.persistence.Query query, Map<String, Object> qryParams) {
         if (query.toString().isEmpty())
             return 0L;
 
         final javax.persistence.Query newQuery = entityManager.createNativeQuery(
-                "select count(*) from ( " + query.unwrap(Query.class).getQueryString().toString() + " ) A");
+                "select count(*) from ( " + query.unwrap(Query.class).getQueryString() + " ) A");
 
         if (!qryParams.isEmpty()) {
-            qryParams.entrySet().stream().forEach((param) -> {
-                newQuery.setParameter(param.getKey(), param.getValue());
-            });
+            qryParams.entrySet().stream().forEach(param -> newQuery.setParameter(param.getKey(), param.getValue()));
         }
         Long total = Long.parseLong(newQuery.getSingleResult().toString());
         return total == null ? 0L : total;
@@ -54,9 +53,9 @@ public class UtilService {
             where.append(" WHERE ");
             LinkedHashMap<String, String> filtro2 = (LinkedHashMap<String, String>) filtro;
             filtro2.forEach((key, value) -> {
-                if (key.indexOf("id") > -1 && value != "" && value != null)
+                if (key.indexOf("id") > -1 && !this.isNullOrEmpty(value).booleanValue())
                     where.append(key + " = " + value + " AND ");
-                else if (value != null && value != "")
+                else if (!this.isNullOrEmpty(value).booleanValue())
                     where.append(key + " LIKE '%" + value + "%' AND ");
             });
 
@@ -97,7 +96,7 @@ public class UtilService {
         }
     }
 
-    public String formataDataHoraParaExibicao(LocalDateTime dataHora) {
+    public String formataDataHoraParaExibicao(@NotNull LocalDateTime dataHora) {
         String dados = dataHora.toString();
         StringBuilder novosDados = new StringBuilder();
         novosDados.append(dados.split("T")[0].split("-")[2]);
@@ -111,6 +110,15 @@ public class UtilService {
         novosDados.append(dados.split("T")[1].split(":")[1]);
 
         return novosDados.toString();
+    }
+
+    public Boolean isNullOrEmpty(@NotNull String valor){
+        if (valor.isEmpty())
+            return valor.isEmpty();
+        else if (valor.equals(""))
+            return true;
+
+        return false;
     }
 
 }

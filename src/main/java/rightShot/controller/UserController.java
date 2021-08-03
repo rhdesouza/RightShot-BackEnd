@@ -35,92 +35,92 @@ import rightShot.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-	@Autowired
-	MyUserDetailsService myUserDetailsService;
+    @Autowired
+    MyUserDetailsService myUserDetailsService;
 
-	@Autowired
-	private RoleRepository iRole;
+    @Autowired
+    private RoleRepository iRole;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Secured({ Const.ROLE_ADMIN_ADMIN })
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<User> save(@RequestBody User user) {
-		user = this.userRepository.save(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
+    @Secured({Const.ROLE_ADMIN_ADMIN})
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<User> save(@RequestBody User user) {
+        user = this.userRepository.save(user);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
 
-	@Secured({ Const.ROLE_ADMIN_ADMIN })
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public ResponseEntity<User> edit(@RequestBody User user) {
-		user = this.userRepository.save(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
+    @Secured({Const.ROLE_ADMIN_ADMIN})
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity<User> edit(@RequestBody User user) {
+        user = this.userRepository.save(user);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
 
-	/* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<User>> list(@RequestParam("page") int page, @RequestParam("size") int size) {
-		Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
-		return new ResponseEntity<Page<User>>(userRepository.findAll(pageable), HttpStatus.OK);
-	}
+    @Secured({Const.ROLE_ADMIN_ADMIN})
+    @GetMapping
+    public ResponseEntity<Page<User>> list(@RequestParam("page") int page, @RequestParam("size") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
+        return new ResponseEntity<Page<User>>(userRepository.findAll(pageable), HttpStatus.OK);
+    }
 
-	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE })
-	@RequestMapping(value = ("/setFotoUsuario/{idUser}"), headers = "content-type=multipart/form-data", method = RequestMethod.POST)
-	public ResponseEntity<?> uploadFile(@PathVariable(name = "idUser") Long idUser,
-			@RequestParam("file") MultipartFile file) throws IOException {
-		return myUserDetailsService.saveFotoUser(file, idUser);
+    @Secured({Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE})
+    @RequestMapping(value = ("/setFotoUsuario/{idUser}"), headers = "content-type=multipart/form-data", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadFile(@PathVariable(name = "idUser") Long idUser,
+                                        @RequestParam("file") MultipartFile file) throws IOException {
+        return myUserDetailsService.saveFotoUser(file, idUser);
 
-	}
+    }
 
-	@GetMapping("/one/{idUser}")
-	public ResponseEntity<User> buscarUsuarioPorId(@PathVariable(name = "idUser") Long idUser) {
-		return myUserDetailsService.buscarUsuarioPorId(idUser);
-	}
+    @GetMapping("/one/{idUser}")
+    public ResponseEntity<User> buscarUsuarioPorId(@PathVariable(name = "idUser") Long idUser) {
+        return myUserDetailsService.buscarUsuarioPorId(idUser);
+    }
 
-	@GetMapping("/deleteImage/{idUser}")
-	public ResponseEntity<User> apagarImageUser(@PathVariable(name = "idUser") Long idUser) {
-		return myUserDetailsService.excluirImagemUser(idUser);
-	}
+    @GetMapping("/deleteImage/{idUser}")
+    public ResponseEntity<User> apagarImageUser(@PathVariable(name = "idUser") Long idUser) {
+        return myUserDetailsService.excluirImagemUser(idUser);
+    }
 
-	/* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
-	@GetMapping("/getAllUser")
-	public ResponseEntity<List<User>> buscarTodosUsuarios() {
-		return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
-	}
+    /* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
+    @GetMapping("/getAllUser")
+    public ResponseEntity<List<User>> buscarTodosUsuarios() {
+        return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
+    }
 
-	/* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
-	@GetMapping("/getAllRoles")
-	public ResponseEntity<List<Role>> buscarTodasRoles2() {
-		return new ResponseEntity<List<Role>>(iRole.findAll(), HttpStatus.OK);
-	}
+    /* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
+    @GetMapping("/getAllRoles")
+    public ResponseEntity<List<Role>> buscarTodasRoles2() {
+        return new ResponseEntity<List<Role>>(iRole.findAll(), HttpStatus.OK);
+    }
 
 
-	/* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
-	@PutMapping("/roles/add")
-	public ResponseEntity<Role> addTipoProduto(@RequestBody final Role role) {
-		return userService.save(role);
-	}
+    /* @Secured({ Const.ROLE_CLIENT, Const.ROLE_ADMIN }) */
+    @PutMapping("/roles/add")
+    public ResponseEntity<Role> addTipoProduto(@RequestBody final Role role) {
+        return userService.save(role);
+    }
 
-	@PostMapping("/disabled/{idUser}")
-	public ResponseEntity<?> desativarUsuario(@PathVariable(name = "idUser") Long idUser) {
-		return userService.desativarUser(idUser);
-	}
+    @PostMapping("/disabled/{idUser}")
+    public ResponseEntity<?> desativarUsuario(@PathVariable(name = "idUser") Long idUser) {
+        return userService.desativarUser(idUser);
+    }
 
-	@PostMapping("/saveRoleUser")
-	public ResponseEntity<?> salvarRoleUsuario(@RequestBody User user) {
-		return userService.salvarUsuario(user);
-	}
+    @PostMapping("/saveRoleUser")
+    public ResponseEntity<?> salvarRoleUsuario(@RequestBody User user) {
+        return userService.salvarUsuario(user);
+    }
 
-	@PostMapping("/saveNewUser")
-	public ResponseEntity<?> salvarNewUsuario(@RequestBody User user) {
-		return userService.salvarNovoUsuario(user);
-	}
+    @PostMapping("/saveNewUser")
+    public ResponseEntity<?> salvarNewUsuario(@RequestBody User user) {
+        return userService.salvarNovoUsuario(user);
+    }
 
 }

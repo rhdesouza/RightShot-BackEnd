@@ -55,7 +55,7 @@ public class VendaController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    //@Secured({Const.ROLE_ADMIN_ADMIN, Const.ROLE_VENDA})
+    @Secured({Const.ROLE_ADMIN_ADMIN, Const.ROLE_VENDA})
     @GetMapping("/one/{idVenda}")
     public ResponseEntity<Venda> buscarVendaPorId(@PathVariable(name = "idVenda") Long idVenda){
         return Optional.ofNullable(vendaService.buscarVendaPorId(idVenda))
