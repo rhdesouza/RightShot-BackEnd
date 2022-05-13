@@ -1,5 +1,19 @@
-# RightShot-BackEnd
-Api Right Shot Club
+
+# 👀 Api Right Shot Club
+
+## 🎮️ Sobre
+Este projeto back-end contem toda tecnologia de negócio e segurança do projeto Right Shot Club
+
+## 👨‍💻️ Tecnogias utilizadas
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
+
+💻️ Spring
+💻️ Docker
+
+## :inbox_tray: Dependências externas do projeto
+Back-end: https://github.com/rhdesouza/RightShotClub-FrontEnd
+
+## :closed_book: Maiores informações ténicas sobre o projeto
 
 Spring Boot 2.5.0-SNAPSHOT
 MAVEN -> Gerenciador de Dependências
@@ -15,10 +29,6 @@ Software: GitKraken
 HEROKU CLI -> Para publicação no Heroku
 Maiores instruções acesse o site do heroku para aplicação.
 Deverá ser criado na raiz do projeto back-end, o arquivo system.properties contendo o apontamento da versão java para o heroku (java.runtime.version=11).
-____________________________________________________________________
-#BUILD FRONT-END
-$ ng build --prod
-Copiar o conteudo da pasta guit para pasta src/main/resources/static do BACK-END
 ____________________________________________________________________
 #BUILD BACK-END
 Alterar as confirações de conexão com o banco de dados em applications.properties (Contém o código comentado para publicação no heroku).
@@ -71,7 +81,6 @@ $ mvn clean package -DskipTests
 
 ## LOGS HEROKU
 $ heroku logs -t
-
-____________________________________________________________________
+___________________________________________________________________
 
 
