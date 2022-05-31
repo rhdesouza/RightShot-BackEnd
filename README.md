@@ -1,74 +1,83 @@
-# RightShot - BackEnd
-_Api Right Shot Club_
+# 👀 Api Right Shot Club
 
-##_Back-End_
-###Softwares
-- Spring Boot 2.5.0-SNAPSHOT
-- MAVEN -> Gerenciador de Dependências
-- JDK: 11
-- Software: Intellij (Recomendado)
-- Lombok
-- Docker;
-- Git;
-- GitKraken;
+## 🎮️ Sobre
+Este projeto back-end contem toda tecnologia de negócio e segurança do projeto Right Shot Club
 
-###DevOps (Docker)
-O projeto contem um docker-compose, para executalo será necessario o comando ```docker-compose up``` na raiz projeto;
-Ambiente de Desenvolvimento:
- 
-    - Mysql (Banco de dados da aplicação);
-    - SonarQube (Sonar da aplicação);
-    - Postgres (Banco para armazenar os dados do SonarQube);
-    - K6 (Ferramenta de testes de carga da aplicação);
-    - grafana (Ferramenta gráfica para os testes do K6);    
-    - influxDb (Armazena os dados extraidos do k6 e informados no grafana);
+## 👨‍💻️ Tecnogias utilizadas
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-####Comandos docker:
-    Iniciar o container: docker-compose up;
+💻️ Spring
+💻️ Docker
 
-####Dicas SonarQube:
-    Primeiro acesso o usuário e senha inicial será: admin.
+## :inbox_tray: Dependências externas do projeto
+Back-end: https://github.com/rhdesouza/RightShotClub-FrontEnd
 
-    Comando para aumento de memória:
-    wsl -d docker-desktop;
-    sysctl -w vm.max_map_count=262144
+## :closed_book: Maiores informações ténicas sobre o projeto
 
-###VARIAVEIS PARA PARAMETRIZAÇÃO (Environment)
-####Configuração para Banco de Dados:
-    datasource.url
-    datasource.username
-    datasource.password
+Spring Boot 2.5.0-SNAPSHOT
+MAVEN -> Gerenciador de Dependências
+JDK: 11
+Software: Eclipse Luna
+Lombok
 
-####Configuração para envio de e-mail:
-    mailSender.host
-    mailSender.port
-    mailSender.userName
-    mailSender.password
-    mailSender.encoding
+##Outras
+Git -> Versionador de código
+Software: GitKraken
 
-####Configuração para rodar os testes heroku
-    MAVEN_CUSTOM_OPTS=true
-
-###Build Heroku
+##Publicação Heroku
+HEROKU CLI -> Para publicação no Heroku
+Maiores instruções acesse o site do heroku para aplicação.
 Deverá ser criado na raiz do projeto back-end, o arquivo system.properties contendo o apontamento da versão java para o heroku (java.runtime.version=11).
-As variaveis de ambinete deverão ser parametrizadas no Heroku, caso contrário ele ira buscar as informações do aplication.properties;
-O heroku deverá ser conectado com o repositório(github) para iniciar o deploy.
-
-###SWAGGER
-Remoto: ```ENDERECO_APLICACAO/swagger-ui.html```
-
-Local: ```http://localhost:8080/swagger-ui.html#/```
 ____________________________________________________________________
-##_FRONT-END_
-###Softwares
- - VsCode;
- - Angular 11;
- - Angular Cli;
- - Git;
- - GitKraken;
+#BUILD BACK-END
+Alterar as confirações de conexão com o banco de dados em applications.properties (Contém o código comentado para publicação no heroku).
+Para cosultar as novas configurações acesse o heroku->rightshot->Overview->Add-ons(Banco)->Connection Info
 
-###VARIAVEIS PARA PARAMETRIZAÇÃO (Environment)
-Configurar os arquivos enviroment.ts para cada ambiente.
+Após o Build do FRONT-END, executar o comando:
+$ maven install
 
-###Build Heroku
-O heroku deverá ser conectado com o repositório(github) para iniciar o deploy.
+Executar o arquivo .jar gerado na pasta target para teste.
+____________________________________________________________________
+#VARIAVEIS PARA PARAMETRIZAÇÃO (Environment)
+#Configuração para Banco de Dados:
+datasource.url
+datasource.username
+datasource.password
+
+#Configuração para envio de e-mail:
+mailSender.host
+mailSender.port
+mailSender.userName
+mailSender.password
+mailSender.encoding
+
+____________________________________________________________________
+#DEPLOY HEROKU (Necessário Heroku CLI)
+
+Se você ainda não o fez, faça login na sua conta Heroku e siga as instruções para criar uma nova chave pública SSH.
+$ heroku login
+
+Clonar o repositório (Somente a primeira vez)
+Use Git para clonar o código-fonte do rocky-spire-84672 na sua máquina local.
+$ heroku git: clone -a rocky-spire-84672
+$ cd rocky-spire-84672
+
+Implante suas alterações
+Faça algumas alterações no código que você acabou de clonar e implante-o no Heroku usando o Git.
+$ git add.
+$ git commit -am "melhora"
+$ git push heroku master
+
+#Deverá ser criado na raiz do projeto back-end, o arquivo system.properties contendo o apontamento da versão java para o heroku (java.runtime.version=11).
+____________________________________________________________________
+#SWAGGER
+ENDERECO_APLICACAO/swagger-ui.html
+http://localhost:8080/swagger-ui.html#/
+____________________________________________________________________
+#Comandos
+## DEPLOY DO WAR SEM TESTES
+$ mvn clean package -DskipTests
+
+## LOGS HEROKU
+$ heroku logs -t
+___________________________________________________________________
