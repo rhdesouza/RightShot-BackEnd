@@ -144,7 +144,7 @@ public class ClienteService {
     }
 
     public Page<Cliente> getClientePageable(Cliente filter, Pageable pageable) {
-        if (filter == null) {
+        if (filter.getNome() == null && filter.getEmail() == null) {
             return clienteRepository.findAll(pageable);
         } else {
             ExampleMatcher matcher = ExampleMatcher
