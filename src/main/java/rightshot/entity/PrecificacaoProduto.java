@@ -17,6 +17,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -125,6 +126,7 @@ import rightshot.vo.ValorMedioPorProdutoVO;
 	
 })
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

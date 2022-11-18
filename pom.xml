@@ -141,6 +141,13 @@
             <artifactId>flying-saucer-pdf</artifactId>
             <version>9.1.20</version>
         </dependency>
+
+        <!-- easy-random -->
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-random-core</artifactId>
+            <version>5.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -193,21 +200,39 @@
                 <version>${jacoco.version}</version>
                 <executions>
                     <execution>
-                        <id>jacoco-initialize</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-site</id>
-                        <phase>package</phase>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.00</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
     <repositories>
@@ -246,5 +271,5 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-
 </project>
+

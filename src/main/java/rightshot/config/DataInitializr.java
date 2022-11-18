@@ -30,7 +30,7 @@ import rightshot.service.FornecedorService;
 import rightshot.service.NcmService;
 
 
-@Component
+//@Component
 public class DataInitializr implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final Logger LOGGER = Logger.getLogger(DataInitializr.class.getName());

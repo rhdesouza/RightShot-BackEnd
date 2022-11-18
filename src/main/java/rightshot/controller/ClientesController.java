@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import rightshot.documentation.DocumentationClienteController;
 import rightshot.domain.Const;
-import rightshot.dto.ClienteDTO;
 import rightshot.entity.Cliente;
-import rightshot.entity.Fornecedor;
 import rightshot.entity.FotoCliente;
 import rightshot.service.ClienteService;
-import rightshot.vo.PageVO;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,16 +34,6 @@ public class ClientesController implements DocumentationClienteController {
 	public List<Cliente> buscarTodosClientes() {
 		return clienteService.buscarTodosClientes();
 	}
-
-/*	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE })
-	@PostMapping("/getAllClientePageable")
-	public ResponseEntity<PageVO<ClienteDTO>> getAllClientePageable(@RequestBody final PageVO<ClienteDTO> pageVo) {
-		try {
-			return new ResponseEntity<PageVO<ClienteDTO>>(clienteService.getAllClientePageable(pageVo), HttpStatus.OK);
-		} catch (Exception ex) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}*/
 
 	@Secured({ Const.ROLE_ADMIN_ADMIN, Const.ROLE_CLIENTE })
 	@PostMapping("/getAllClientePageable")

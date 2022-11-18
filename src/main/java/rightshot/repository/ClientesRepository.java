@@ -6,7 +6,6 @@ import rightshot.entity.Cliente;
 
 @Repository
 public interface ClientesRepository extends JpaRepository<Cliente, Long> {
-		
 	Cliente findByCpf(String cpf);
 	
 }

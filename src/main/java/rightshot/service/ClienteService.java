@@ -49,6 +49,7 @@ public class ClienteService {
         return clienteRepository.findById(idCliente).orElse(null);
     }
 
+    @Deprecated(since = "Verifica se o método ainda será utilziado")
     public String desativarCliente(Long idCliente) {
         try {
             Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> {
@@ -78,7 +79,7 @@ public class ClienteService {
 
     }
 
-    public void regraClienteExistente(@NotNull Cliente cliente) {
+    private void regraClienteExistente(@NotNull Cliente cliente) {
         Optional<Cliente> cli = Optional.ofNullable(clienteRepository.findByCpf(cliente.getCpf()));
         if (cli.isPresent() && cliente.getId() == null && !cliente.getCpf().isEmpty())
             throw new RegraDeNegocioException("Já existe um cliente cadastrado para este CPF.");
@@ -139,12 +140,8 @@ public class ClienteService {
         fotoClienteRepository.deleteById(idFotoCliente);
     }
 
-    public Cliente getClientePorCpf(String cpf) {
-        return clienteRepository.findByCpf(cpf);
-    }
-
     public Page<Cliente> getClientePageable(Cliente filter, Pageable pageable) {
-        if (filter.getNome() == null && filter.getEmail() == null) {
+        if (filter == null || (filter.getNome() == null && filter.getEmail() == null)) {
             return clienteRepository.findAll(pageable);
         } else {
             ExampleMatcher matcher = ExampleMatcher

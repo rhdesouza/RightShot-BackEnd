@@ -1,5 +1,6 @@
 package rightshot.unit;
 
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,9 +56,12 @@ public class ClienteServiceTest {
 
     private PageVO<ClienteDTO> pageVOMock;
 
+    private EasyRandom easyRandom;
+
     @BeforeEach
     void preparaMock() {
-        clienteMock = new Cliente(1L, "Teste Cliente", "11122233344");
+        easyRandom = new EasyRandom();
+        clienteMock = easyRandom.nextObject(Cliente.class);
         multipartFileMock = new MockMultipartFile("Teste", "Teste.txt", MediaType.TEXT_PLAIN_VALUE, "TesteArquivo".getBytes());
         fotoClienteMock = new FotoCliente("teste", "teste", "teste".getBytes());
 
@@ -68,29 +72,6 @@ public class ClienteServiceTest {
         Mockito.when(fotoClienteRepository.findById(1L)).thenReturn(Optional.of(fotoClienteMock));
 
     }
-
-
-/*    @Test
-    void getAllClientePageable_quandoPageVOEstaCorreto() {
-        Query query = Mockito.mock(Query.class);
-        TypedQuery<ClienteDTO> mockedQuery = entityManager.createNamedQuery("ClienteDTO", ClienteDTO.class);
-        String queryStringMock = "select * from teste HashWhereOrderBy HashWhereFilter";
-
-        Mockito.when(entityManager.createNamedQuery("ClienteDTO", ClienteDTO.class)).thenReturn(mockedQuery);
-        Mockito.when(mockedQuery.unwrap(org.hibernate.query.Query.class).getQueryString()).thenReturn(queryStringMock);
-
-        Mockito.when(entityManager.createNativeQuery(Mockito.anyString())).thenReturn(mockedQuery);
-
-        List<ClienteDTO> expected = Arrays.asList(new ClienteDTO(), new ClienteDTO());
-
-        Mockito.when(mockedQuery.getResultList()).thenReturn(expected);
-
-        pageVOMock = new PageVO<ClienteDTO>("id", "asc", 1, 10);
-        PageVO<ClienteDTO> retorno = clienteService.getAllClientePageable(pageVOMock);
-
-        Assertions.assertEquals(expected, retorno.getContent());
-    }*/
-
     @Test
     void buscarClientePorId_quandoLocalizado() {
         Cliente cliente = clienteService.buscarClientePorId(1l);
@@ -141,22 +122,6 @@ public class ClienteServiceTest {
     void saveCliente_quandoClienteJaExiste() {
         Cliente newCliente = new Cliente(null, "NovoTeste", "11122233344");
 
-        RegraDeNegocioException exception = Assertions.assertThrows(RegraDeNegocioException.class,
-                () -> clienteService.saveCliente(newCliente));
-
-        Assertions.assertEquals("Já existe um cliente cadastrado para este CPF.", exception.getMessage());
-    }
-
-    @Test
-    void regraClienteExistente_quandoClienteNaoExiste() {
-        Cliente newCliente = new Cliente(1l, "NovoTeste", "11122233344");
-        Assertions.assertDoesNotThrow(() -> clienteService.regraClienteExistente(newCliente));
-    }
-
-
-    @Test
-    void regraClienteExistente_quandoClientExiste() {
-        Cliente newCliente = new Cliente(null, "NovoTeste", "11122233344");
         RegraDeNegocioException exception = Assertions.assertThrows(RegraDeNegocioException.class,
                 () -> clienteService.saveCliente(newCliente));
 
@@ -258,18 +223,6 @@ public class ClienteServiceTest {
     }
 
     @Test
-    void getClientePorCpf_quandoClienteExiste() {
-        Cliente clientePorCpf = clienteService.getClientePorCpf("11122233344");
-        Assertions.assertEquals(clienteMock, clientePorCpf);
-    }
-
-    @Test
-    void getClientePorCpf_quandoClienteNaoExiste() {
-        Cliente clientePorCpf = clienteService.getClientePorCpf("9999999999");
-        Assertions.assertNull(clientePorCpf);
-    }
-
-    @Test
     void getClientePageable_quandoRetornaFiltrado() {
         Cliente filter = new Cliente();
         filter.setNome("TesteMock");
@@ -297,6 +250,25 @@ public class ClienteServiceTest {
     @Test
     void getClientePageable_quandoQuandoNaoExisteFiltro() {
         Cliente filter = null;
+        List<Cliente> clienteList = Arrays.asList(new Cliente(), new Cliente(), new Cliente());
+        Pageable pageable = PageRequest.of(1, 10);
+        Page<Cliente> pageCli = new PageImpl<Cliente>(clienteList, pageable, clienteList.size());
+
+        Mockito.when(clienteRepository.findAll(pageable))
+                .thenReturn(pageCli);
+
+        Page<Cliente> retorno = this.clienteService.getClientePageable(filter, pageable);
+
+        Assertions.assertEquals(retorno.getContent(), clienteList);
+        Assertions.assertEquals(retorno.getPageable().getPageSize(), 10);
+        Assertions.assertEquals(retorno.getPageable().getPageNumber(), 1);
+    }
+
+    @Test
+    void getClientePageable_quandoOFiltroEstaVazio() {
+        Cliente filter = new Cliente();
+        filter.setNome(null);
+        filter.setEmail(null);
         List<Cliente> clienteList = Arrays.asList(new Cliente(), new Cliente(), new Cliente());
         Pageable pageable = PageRequest.of(1, 10);
         Page<Cliente> pageCli = new PageImpl<Cliente>(clienteList, pageable, clienteList.size());

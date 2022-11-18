@@ -1,5 +1,6 @@
 package rightshot.unit;
 
+import org.jeasy.random.EasyRandom;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PrecificacaoProdutoServiceTest {
@@ -41,6 +44,8 @@ public class PrecificacaoProdutoServiceTest {
 
     @Autowired
     private PrecificacaoProdutoService precificacaoProdutoService;
+
+    private EasyRandom easyRandom = new EasyRandom();
 
     //@DisplayName("Verifica se a função de adicionar o percentual está correta")
     @Test
@@ -128,13 +133,13 @@ public class PrecificacaoProdutoServiceTest {
     }
 
     @Test
-    public void buscarPrecificacaoPorIdProduto_OK(){
-        ValorMedioPorProdutoVO valorMedioPorProdutoVOMock = new ValorMedioPorProdutoVO(1l,10l, new BigDecimal(100), new BigDecimal(10));
+    public void buscarPrecificacaoPorIdProduto_OK() {
+        ValorMedioPorProdutoVO valorMedioPorProdutoVOMock = new ValorMedioPorProdutoVO(1l, 10l, new BigDecimal(100), new BigDecimal(10));
         Mockito.when(precificacaoProdutoDaoMock.getSugestaoPrecificavaoProduto(1l)).thenReturn(valorMedioPorProdutoVOMock);
         InfoRSC infoRSCMock = new InfoRSC();
         infoRSCMock.setMarkup(10.0);
         Mockito.when(iInfoRSCMock.findById(1)).thenReturn(Optional.of(infoRSCMock));
-        Produto produtoMock = new Produto("11111","Teste", new TipoProduto(), 100l, new Ncm());
+        Produto produtoMock = new Produto("11111", "Teste", new TipoProduto(), 100l, new Ncm());
         Mockito.when(produtoRepositoryMock.findById(1l)).thenReturn(Optional.of(produtoMock));
 
         PrecificacaoProdutoDTO retorno = precificacaoProdutoService.buscarPrecificacaoPorIdProduto(1l);
@@ -145,8 +150,8 @@ public class PrecificacaoProdutoServiceTest {
     }
 
     @Test
-    public void buscarPrecificacaoPorIdProduto_Exeption(){
-        ValorMedioPorProdutoVO valorMedioPorProdutoVOMock = new ValorMedioPorProdutoVO(1l,10l, new BigDecimal(100), new BigDecimal(10));
+    public void buscarPrecificacaoPorIdProduto_Exeption() {
+        ValorMedioPorProdutoVO valorMedioPorProdutoVOMock = new ValorMedioPorProdutoVO(1l, 10l, new BigDecimal(100), new BigDecimal(10));
         Mockito.when(precificacaoProdutoDaoMock.getSugestaoPrecificavaoProduto(1l)).thenReturn(valorMedioPorProdutoVOMock);
         InfoRSC infoRSCMock = new InfoRSC();
         infoRSCMock.setMarkup(10.0);
@@ -156,6 +161,31 @@ public class PrecificacaoProdutoServiceTest {
         PrecificacaoProdutoDTO retorno = precificacaoProdutoService.buscarPrecificacaoPorIdProduto(1l);
 
         Assertions.assertNull(retorno);
+    }
+
+    @Test
+    public void salvarPrecificacao_OK() {
+        //arrange
+        PrecificacaoProduto precificacaoProdutoMock = easyRandom.nextObject(PrecificacaoProduto.class);
+        precificacaoProdutoMock.getProduto().setId(1l);
+
+        ValorMedioPorProdutoVO valorMedioPorProdutoVOMock = new ValorMedioPorProdutoVO(1l, 10l, new BigDecimal(100), new BigDecimal(-1));
+        Mockito.when(precificacaoProdutoDaoMock.getSugestaoPrecificavaoProduto(1l)).thenReturn(valorMedioPorProdutoVOMock);
+        InfoRSC infoRSCMock = new InfoRSC();
+        infoRSCMock.setMarkup(10.0);
+        Mockito.when(iInfoRSCMock.findById(1)).thenReturn(Optional.of(infoRSCMock));
+        Produto produtoMock = new Produto("11111", "Teste", new TipoProduto(), 100l, new Ncm());
+        Mockito.when(produtoRepositoryMock.findById(1l)).thenReturn(Optional.of(produtoMock));
+
+        Mockito.when(precificacaoProdutoRepositoryMock.save(any(PrecificacaoProduto.class))).thenReturn(precificacaoProdutoMock);
+
+        //action
+        PrecificacaoProduto precificacaoProdutoReturn = precificacaoProdutoService.salvarPrecificacao(precificacaoProdutoMock);
+
+
+        //assert
+        Assertions.assertEquals(precificacaoProdutoMock, precificacaoProdutoReturn);
+
     }
 
 

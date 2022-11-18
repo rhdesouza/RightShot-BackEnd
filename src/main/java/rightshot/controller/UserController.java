@@ -53,6 +53,7 @@ public class UserController {
 
     @Secured({Const.ROLE_ADMIN_ADMIN})
     @RequestMapping(value = "", method = RequestMethod.POST)
+    @Deprecated(since = "Verifica se precisa utilizar")
     public ResponseEntity<User> save(@RequestBody User user) {
         user = this.userRepository.save(user);
         return new ResponseEntity<User>(user, HttpStatus.OK);
